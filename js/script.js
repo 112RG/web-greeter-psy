@@ -5,6 +5,7 @@ window.addEventListener('load', init, false);
 function init() {
   createWorld();
   createPrimitive();
+  //createGUI();
   //---
   animation();
 }
@@ -25,7 +26,7 @@ function createWorld() {
   scene.background = new THREE.Color(Theme._darkred);
   //---
   camera = new THREE.PerspectiveCamera(55, _width/_height, 1, 1000);
-  camera.position.z = 8;
+  camera.position.z = 6;
   //---
   renderer = new THREE.WebGLRenderer({antialias:true, alpha:false});
   renderer.setSize(_width, _height);
@@ -108,18 +109,18 @@ function createPrimitive() {
 var options = {
   perlin: {
     vel: 0.002,
-    speed: 0.00010,
+    speed: 0.00001,
     perlins: 1.0,
-    decay: 0.50,
-    complex: 0.30,
+    decay: 1.0,
+    complex: 0.40,
     waves: 20.0,
     eqcolor: 11.0,
     fragment: true,
     redhell: true
   },
   spin: {
-    sinVel: 0.0,
-    ampVel: 80.0,
+    sinVel: 0.02,
+    ampVel: 90.0,
   }
 }
 
@@ -127,7 +128,7 @@ function createGUI() {
   var gui = new dat.GUI();
   var camGUI = gui.addFolder('Camera');
   //cam.add(, 'speed', 0.0, 30.00).listen();
-  camGUI.add(camera.position, 'z', 3, 20).name('Zoom').listen();
+  camGUI.add(camera.position, 'z', 2, 20).name('Zoom').listen();
   camGUI.add(options.perlin, 'vel', 0.000, 0.02).name('Velocity').listen();
   //camGUI.open();
   
