@@ -112,7 +112,7 @@ var options = {
     speed: 0.00001,
     perlins: 1.0,
     decay: 1.0,
-    complex: 0.40,
+    complex: 1,
     waves: 20.0,
     eqcolor: 11.0,
     fragment: true,
@@ -150,20 +150,80 @@ function createGUI() {
 }
 
 //--------------------------------------------------------------------
+var d = 1, countup = true;
+function decay (){
+  if(countup)
+  {
+    d += 0.0001
 
+    if(d > 1.5)
+      countup = false
+  } else {
+    d -= 0.0001
+    if(d < 2)
+      countup = true
+  }
+}
+var w = 10, count = true
+function waves (){
+  console.log(w)
+
+  if(count)
+  {
+    w += 0.1
+
+    if(w > 20)
+    count = false
+  } else {
+    w -= 0.1
+    if(w < 15)
+    count = true
+  }
+}
+var c = 3, ccount = true;
+function cam(){
+  if(ccount)
+  {
+    c += 0.01
+    if(c > 6)
+    ccount = false
+  } else {
+    c -= 0.01
+    if(c < 3)
+    ccount = true
+  }
+}
+var co = 5, cccount = true;
+function color(){
+  if(cccount)
+  {
+    co += 0.1
+
+    if(co > 15)
+    cccount = false
+  } else {
+    co -= 0.1
+    if(co < 6)
+    cccount = true
+  }
+}
 function animation() {
   requestAnimationFrame(animation);
   var performance = Date.now() * 0.003;
-  
+  decay()
+  waves()
+  cam()
+  color()
+  camera.position.z = c;
   _primitive.mesh.rotation.y += options.perlin.vel;
-  _primitive.mesh.rotation.x = (Math.sin(performance * options.spin.sinVel) * options.spin.ampVel )* Math.PI / 180;
+  _primitive.mesh.rotation.x = (Math.sin(performance * options.spin.sinVel) * options.spin.ampVel )* Math.PI / 360;
   //---
   mat.uniforms['time'].value = options.perlin.speed * (Date.now() - start);
-  mat.uniforms['pointscale'].value = options.perlin.perlins;
-  mat.uniforms['decay'].value = options.perlin.decay;
+  mat.uniforms['pointscale'].value = 1.5;
+  mat.uniforms['decay'].value = d + (Math.random() / 1000);
   mat.uniforms['complex'].value = options.perlin.complex;
-  mat.uniforms['waves'].value = options.perlin.waves;
-  mat.uniforms['eqcolor'].value = options.perlin.eqcolor;
+  mat.uniforms['waves'].value = w + (Math.random() / 1000);
+  mat.uniforms['eqcolor'].value = co;
   mat.uniforms['fragment'].value = options.perlin.fragment;
   mat.uniforms['redhell'].value = options.perlin.redhell;
   //---
